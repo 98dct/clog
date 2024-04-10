@@ -5,7 +5,11 @@ import (
 	"os"
 )
 
-//表示范围0-255  占用1个字节
+const (
+	FmtEmptySeparate = ""
+)
+
+// 表示范围0-255  占用1个字节
 type Level uint8
 
 const (
