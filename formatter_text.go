@@ -12,7 +12,8 @@ type TextFormatter struct {
 func (f *TextFormatter) Format(e *Entry) error {
 
 	if !f.IgnoreBasicFields {
-		e.Buffer.WriteString(fmt.Sprint("%s %s", e.Time.Format(time.RFC3339), LevelNameMapping[e.Level]))
+		//默认显示基本的字段
+		e.Buffer.WriteString(fmt.Sprintf("%s %s", e.Time.Format(time.RFC3339), LevelNameMapping[e.Level]))
 		if e.File != "" {
 			short := e.File
 			for i := len(e.File) - 1; i > 0; i-- {

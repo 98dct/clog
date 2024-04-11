@@ -48,7 +48,11 @@ type options struct {
 type Option func(*options)
 
 func initOptions(opts ...Option) (o *options) {
-	o = &options{}
+	o = &options{
+		level:         DebugLevel,
+		stdLevel:      DebugLevel,
+		disableCaller: false,
+	}
 	for _, opt := range opts {
 		opt(o)
 	}

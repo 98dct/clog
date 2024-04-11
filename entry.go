@@ -39,6 +39,7 @@ func (e *Entry) write(level Level, format string, args ...interface{}) {
 	e.Format = format
 	e.Args = args
 	if !e.logger.opt.disableCaller {
+		//默认显示文件名、函数名、行号
 		if pc, file, line, ok := runtime.Caller(2); !ok {
 			e.File = "???"
 			e.Func = "???"
