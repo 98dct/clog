@@ -17,6 +17,13 @@ func (f *JsonFormatter) Format(e *Entry) error {
 		e.Map["level"] = LevelNameMapping[e.Level]
 		e.Map["time"] = e.Time.Format(time.RFC3339)
 		if e.File != "" {
+			//对file拆分下，去除太多的前缀
+			for i := len(e.File) - 1; i > 0; i-- {
+				if e.File[i] == '/' {
+					e.File = e.File[i+1:]
+					break
+				}
+			}
 			e.Map["file"] = e.File + ":" + strconv.Itoa(e.Line)
 			e.Map["func"] = e.Func
 		}
@@ -28,8 +35,9 @@ func (f *JsonFormatter) Format(e *Entry) error {
 			e.Map["message"] = fmt.Sprintf(e.Format, e.Args...)
 		}
 
+		//这个 jsoniter "github.com/json-iterator/go"  库提供了比encode/json更快的解析和序列化，使用了一些优化技术（代码生成和汇编优化）
+		//提高处理json数据的速度
 		return jsoniter.NewEncoder(e.Buffer).Encode(e.Map)
-
 	}
 
 	switch e.Format {
